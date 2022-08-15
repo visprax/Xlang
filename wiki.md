@@ -122,3 +122,8 @@ baconAndToast.serve("Dear Reader");
 
 *standard library*
 - TODO: implement a minimal standard library: string manipulation, math functions, file I/O, networking ...
+
+
+## Imeplementtion
+
+This section deals with the implementation
