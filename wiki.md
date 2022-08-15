@@ -74,7 +74,8 @@ Ref counters are simpler to implement, while a GC takes a lot of work.
 *closures*:
 - functions are first class, we can get a reference to, store in variables, pass around, etc.
 
-- ```
+- 
+```
 fn addPair(a, b) {
     return a+b;
 }
@@ -84,9 +85,8 @@ fn identity(x) {
 }
 
 print identity(addPair)(a, b);
-```
 
-- ```
+
 fn returnFunction() {
   let outside = "outside";
 
@@ -103,7 +103,8 @@ fun();
 
 *classes*:
 - we will use classes as opposed to prototypes (though easier to implement they push the complexity to the end user)
-- ```
+-
+```
 class Breakfast {
   init(meat, bread) {
     this.meat = meat;
@@ -117,6 +118,7 @@ var baconAndToast = Breakfast("bacon", "toast");
 baconAndToast.serve("Dear Reader");
 // "Enjoy your bacon and toast, Dear Reader."
 ```
+
 
 - TODO: instantiation and initialization, inheritance
 
