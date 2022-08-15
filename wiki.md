@@ -38,3 +38,87 @@ the main way to run your code in a browser.
 The fastest way to execute code is by compiling it to machine code, but you might not know what architecture your end user's machine supports.
 We can do what Java Virtual Machine (JVM) and most JavaScript interpreters do. When the program is loaded, either from the source (JavaScript) 
 or platform-independent bytecode from JVM, you compile it to native code for the target architecture, this is called **just-in-time compilation**.
+
+### The Xlang specifications
+
+*syntax*: TODO: explanation about the syntax of Xlang. Later change probably to mimic Julia.
+
+*Dynamically typed*: variables can store values of any type, the type errors are detected at runtime. 
+A statically typed language is a much larger project to imeplement here.
+
+*Automatic memory management*: Two main techniques for managing memory: **reference counting** and **tracing garbage collection** (or just **GC**), 
+Ref counters are simpler to implement, while a GC takes a lot of work.
+
+*Data types*: 
+- **Booleans** (*true* or *false*) 
+- TODO: **integers**
+- **double-precision floating point**
+- TODO: hexadecimal, scientific notation, octal, ..., 
+- **strings**
+- **nil** value, TODO: change it to *null*
+- TODO: other data types like *dict*
+
+*Variables*:
+- `let a = 1;`
+- TODO: more on this later.
+
+*control flow*:
+- if else statements
+- while loop
+- for loop
+- TODO: examples for each
+
+*functions*:
+- `fn printSum(a, b) { print(a+b); }`
+
+*closures*:
+- functions are first class, we can get a reference to, store in variables, pass around, etc.
+
+- ```
+fn addPair(a, b) {
+    return a+b;
+}
+
+fn identity(x) {
+    return x;
+}
+
+print identity(addPair)(a, b);
+```
+
+- ```
+fn returnFunction() {
+  let outside = "outside";
+
+  fun inner() {
+    print outside;
+  }
+
+  return inner;
+}
+
+let fun = returnFunction();
+fun();
+```
+
+*classes*:
+- we will use classes as opposed to prototypes (though easier to implement they push the complexity to the end user)
+- ```
+class Breakfast {
+  init(meat, bread) {
+    this.meat = meat;
+    this.bread = bread;
+  }
+
+  // ...
+}
+
+var baconAndToast = Breakfast("bacon", "toast");
+baconAndToast.serve("Dear Reader");
+// "Enjoy your bacon and toast, Dear Reader."
+```
+
+- TODO: instantiation and initialization, inheritance
+
+*standard library*
+- TODO: implement a minimal standard library: string manipulation, math functions, file I/O, networking ...
