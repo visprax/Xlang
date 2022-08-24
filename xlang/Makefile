@@ -2,8 +2,8 @@ CC := gcc -g -Wall
 
 all: xlang.x
 
-xlang.x: main.o logger.o memory.o bytecode.o
-	$(CC) main.o logger.o memory.o bytecode.o -o xlang.x
+xlang.x: main.o logger.o memory.o bytecode.o debugger.o
+	$(CC) main.o logger.o memory.o bytecode.o debugger.o -o xlang.x
 
 main.o: main.c
 	$(CC) -c main.c
@@ -17,10 +17,13 @@ memory.o: memory.c
 bytecode.o: bytecode.c
 	$(CC) -c bytecode.c
 
+debugger.o: debugger.c
+	$(CC) -c debugger.c
+
 .PHONY: clean run
 
 clean:
-	rm xlang.x *.o
+	rm -rf xlang.x *.o
 
 run:
 	./xlang.x
