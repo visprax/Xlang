@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+*.x
 
 # notes file
 notes.md
