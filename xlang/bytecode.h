@@ -1,5 +1,5 @@
-#ifndef xlang_bytecode_h
-#define xlang_bytecode_h
+#ifndef XLANG_BYTECODE_H
+#define XLANG_BYTECODE_H
 
 #include "common.h"
 
@@ -24,4 +24,4 @@ void init_bytecode(Bytecode* bytecode);
 void write_bytecode(Bytecode* bytecode, uint8_t byte);
 
 
-#endif 
+#endif // XLANG_BYTECODE_H 

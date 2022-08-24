@@ -1,8 +1,8 @@
-#ifndef xlang_common_h
-#define xlang_common_h
+#ifndef XLANG_COMMON_H
+#define XLANG_COMMON_H
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#endif
+#endif // XLANG_COMMON_H
