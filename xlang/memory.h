@@ -1,5 +1,5 @@
-#ifndef xlang_memory_h
-#define xlang_memory_h
+#ifndef XLANG_MEMORY_H
+#define XLANG_MEMORY_H
 
 #include "common.h"
 
@@ -23,4 +23,4 @@
 
 void* reallocate(void* pointer, size_t old_size, size_t new_size);
 
-#endif
+#endif // XLANG_MEMORY_H
