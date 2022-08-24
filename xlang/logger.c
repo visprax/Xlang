@@ -6,13 +6,15 @@
 #include "logger.h"
 
 // TODO: make log levels an enum
+// TODO: set a name for the logger (e.g. main, memory, ...)
+// TODO: a way to enable or disable logging or setting log level
 
 void logger(const char* level, const char* message, ...)
 {
     time_t now = time(NULL);
     struct tm* datetime = localtime(&now);
     
-    char datetime_buff[64];
+    char datetime_buff[MAX_DT_BUF_LEN];
     strftime(datetime_buff, sizeof(datetime_buff), "%d-%b-%Y %X", datetime);
     // variadic arguments
     va_list args;
