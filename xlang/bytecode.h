@@ -21,6 +21,7 @@ typedef struct
 } Bytecode;
 
 void init_bytecode(Bytecode* bytecode);
+void free_bytecode(Bytecode* bytecode);
 void write_bytecode(Bytecode* bytecode, uint8_t byte);
 
 
