@@ -1,8 +1,9 @@
 #include <stdlib.h>
 
-#include "bytecode.h"
-#include "memory.h"
 #include "logger.h"
+#include "memory.h"
+#include "bytecode.h"
+#include "value.h"
 
 void init_bytecode(Bytecode* bytecode)
 {
@@ -10,14 +11,7 @@ void init_bytecode(Bytecode* bytecode)
     bytecode->size = 0;
     bytecode->capacity = 0;
     bytecode->code = NULL;
-}
-
-void free_bytecode(Bytecode* bytecode)
-{
-    logger("INFO", "freeing bytecode stream");
-    FREE_ARRAY(uint8_t, bytecode->code, bytecode->capacity);
-    // leave the bytecode in a well-defined state
-    init_bytecode(bytecode);
+    init_valuearray(&bytecode->constants);
 }
 
 void write_bytecode(Bytecode* bytecode, uint8_t byte)
@@ -34,4 +28,20 @@ void write_bytecode(Bytecode* bytecode, uint8_t byte)
     bytecode->code[bytecode->size] = byte;
     bytecode->size++;
         
+}
+
+int add_constant(Bytecode* bytecode, Value value)
+{
+    logger("INFO", "adding to bytecode stream the constant: %lf", value);
+    write_valuearray(&bytecode->constants, value);
+    return bytecode->constants.size - 1;
+}
+
+void free_bytecode(Bytecode* bytecode)
+{
+    logger("INFO", "freeing bytecode stream");
+    FREE_ARRAY(uint8_t, bytecode->code, bytecode->capacity);
+    free_valuearray(&bytecode->constants);
+    // leave the bytecode in a well-defined state
+    init_bytecode(bytecode);
 }
