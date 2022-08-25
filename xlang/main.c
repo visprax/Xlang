@@ -8,6 +8,11 @@ int main(int argc, const char* argv[])
 {
     Bytecode bytecode;
     init_bytecode(&bytecode);
+    
+    int constant = add_constant(&bytecode, 1.5);
+    write_bytecode(&bytecode, OP_CONSTANT);
+    write_bytecode(&bytecode, constant);
+
     write_bytecode(&bytecode, OP_RETURN);
     
     disassemble_bytecode(&bytecode, "Test Bytecode");
