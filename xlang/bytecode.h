@@ -2,6 +2,7 @@
 #define XLANG_BYTECODE_H
 
 #include "common.h"
+#include "value.h"
 
 /*
  * A bytecode is a sequence of instructions, each instruction 
@@ -10,6 +11,7 @@
  */
 typedef enum
 {
+    OP_CONSTANT,
     OP_RETURN,
 } OpCode;
 
@@ -18,11 +20,13 @@ typedef struct
     int size;
     int capacity;
     uint8_t* code;
+    ValueArray constants;
 } Bytecode;
 
 void init_bytecode(Bytecode* bytecode);
-void free_bytecode(Bytecode* bytecode);
 void write_bytecode(Bytecode* bytecode, uint8_t byte);
+int add_constant(Bytecode* bytecode, Value value);
+void free_bytecode(Bytecode* bytecode);
 
 
 #endif // XLANG_BYTECODE_H 
