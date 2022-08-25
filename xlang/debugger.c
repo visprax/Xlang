@@ -3,6 +3,12 @@
 #include "logger.h"
 #include "debugger.h"
 
+static int simple_instruction(const char* name, int offset)
+{
+    logger("DEBUG", "got instruction: '%s'", name);
+    return offset+1;
+}
+
 void disassemble_bytecode(Bytecode* bytecode, const char* name)
 {
     logger("DEBUG", "disassembling bytecode stream: %s", name);
@@ -15,7 +21,7 @@ void disassemble_bytecode(Bytecode* bytecode, const char* name)
 
 int disassemble_instruction(Bytecode* bytecode, int offset)
 {
-    logger("DEBUG", "disassembling instruction at offset: %d", offset);
+    logger("DEBUG", "disassembling instruction at offset: %04d", offset);
     uint8_t instruction = bytecode->code[offset];
     switch (instruction)
     {
@@ -27,8 +33,3 @@ int disassemble_instruction(Bytecode* bytecode, int offset)
     }
 }
 
-static int simple_instruction(const char* name, int offset)
-{
-    logger("DEBUG", "got instruction: '%s'", name);
-    return offset+1;
-}
