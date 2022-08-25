@@ -14,7 +14,7 @@ logger.o: logger.c
 memory.o: memory.c
 	$(CC) -c memory.c
 
-bytecode.o: bytecode.c value.o
+bytecode.o: bytecode.c
 	$(CC) -c bytecode.c
 
 debugger.o: debugger.c
