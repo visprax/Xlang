@@ -35,3 +35,9 @@ void free_valuearray(ValueArray* array)
     FREE_ARRAY(Value, array->values, array->capacity);
     init_valuearray(array);
 }
+
+void print_value(Value value)
+{
+    // %g is scientific notation specifier
+    printf("%g", value);
+}

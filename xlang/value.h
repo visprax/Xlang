@@ -15,5 +15,6 @@ typedef struct
 void init_valuearray(ValueArray* array);
 void write_valuearray(ValueArray* array, Value value);
 void free_valuearray(ValueArray* array);
+void print_value(Value value);
 
 #endif // XLANG_VALUE_H
