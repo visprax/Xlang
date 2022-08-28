@@ -6,22 +6,20 @@
 
 #include "logger.h"
 
-// TODO: make log levels an enum
-// TODO: set a name for the logger (e.g. main, memory, ...)
-// TODO: a way to enable or disable logging or setting log level
+// TODO: a way to enable or disable logging or setting log level output
 
 static char* LOGNAME = "logger";
 
 void logger(const char* name, const uint8_t level, const char* message, ...)
 {
     Colors colors = {
-        "\x1b[31m",
-        "\x1b[32m",
-        "\x1b[33m",
-        "\x1b[34m",
-        "\x1b[35m",
-        "\x1b[36m",
-        "\x1b[0m"
+        "\x1b[31m", // red
+        "\x1b[32m", // green
+        "\x1b[33m", // yellow
+        "\x1b[34m", // blue
+        "\x1b[35m", // magenta
+        "\x1b[36m", // cyan
+        "\x1b[0m"   // reset
     };
 
     const char* level_color;
