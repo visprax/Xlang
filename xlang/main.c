@@ -10,10 +10,10 @@ int main(int argc, const char* argv[])
     init_bytecode(&bytecode);
     
     int constant = add_constant(&bytecode, 1.5);
-    write_bytecode(&bytecode, OP_CONSTANT);
-    write_bytecode(&bytecode, constant);
+    write_bytecode(&bytecode, OP_CONSTANT, 100);
+    write_bytecode(&bytecode, constant, 100);
 
-    write_bytecode(&bytecode, OP_RETURN);
+    write_bytecode(&bytecode, OP_RETURN, 100);
     
     disassemble_bytecode(&bytecode, "Test Bytecode");
 
