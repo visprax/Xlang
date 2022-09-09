@@ -34,3 +34,6 @@
 
 # notes file
 notes.md
+
+# ignore build directory
+build/
