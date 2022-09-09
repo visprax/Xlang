@@ -1,7 +1,7 @@
 #ifndef XLANG_LOGGER_H
 #define XLANG_LOGGER_H
 
-#include "common.h"
+#include <stdint.h>
 
 // maximum datetime buffer length
 #define MAX_DT_BUF_LEN 64
