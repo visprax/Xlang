@@ -1,5 +1,5 @@
-#ifndef XLANG_BYTECODE_H
-#define XLANG_BYTECODE_H
+#ifndef XLANG_BCSTREAM_H
+#define XLANG_BCSTREAM_H
 
 #include "common.h"
 #include "value.h"
@@ -7,9 +7,9 @@
 // TODO: change Bytecode to BCStream (bytecode stream)
 
 /*
- * A bytecode is a sequence of instructions, each instruction 
- * consists of one-byte operation code (OpCode), followed by 
- * zero or more operands.
+ * A bcstream is a bytecode stream, sequence of instructions, 
+ * each instruction consists of one-byte operation code (OpCode), 
+ * followed by zero or more operands.
  */
 typedef enum
 {
@@ -24,12 +24,12 @@ typedef struct
     uint8_t* code;
     int* lines;
     ValueArray constants;
-} Bytecode;
+} BCStream;
 
-void init_bytecode(Bytecode* bytecode);
-void write_bytecode(Bytecode* bytecode, uint8_t byte, int line);
-int add_constant(Bytecode* bytecode, Value value);
-void free_bytecode(Bytecode* bytecode);
+void init_bcstream(BCStream* bcstream);
+void write_bcstream(BCStream* bcstream, uint8_t byte, int line);
+int add_constant(BCStream* bcstream, Value value);
+void free_bcstream(BCStream* bcstream);
 
 
-#endif // XLANG_BYTECODE_H 
+#endif // XLANG_BCSTREAM_H 

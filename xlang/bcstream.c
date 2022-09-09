@@ -2,52 +2,52 @@
 
 #include "logger.h"
 #include "memory.h"
-#include "bytecode.h"
+#include "bcstream.h"
 #include "value.h"
 
-static char* LOGNAME = "bytecode";
+static char* LOGNAME = "bcstream";
 
-void init_bytecode(Bytecode* bytecode)
+void init_bcstream(BCStream* bcstream)
 {
     logger(LOGNAME, INFO, "intializing bytecode stream");
-    bytecode->size = 0;
-    bytecode->capacity = 0;
-    bytecode->code = NULL;
-    bytecode->lines = NULL;
-    init_valuearray(&bytecode->constants);
+    bcstream->size = 0;
+    bcstream->capacity = 0;
+    bcstream->code = NULL;
+    bcstream->lines = NULL;
+    init_valuearray(&bcstream->constants);
 }
 
-void write_bytecode(Bytecode* bytecode, uint8_t byte, int line)
+void write_bcstream(BCStream* bcstream, uint8_t byte, int line)
 {
     logger(LOGNAME, INFO, "writing bytecode stream");
-    if (bytecode->capacity < bytecode->size+1)
+    if (bcstream->capacity < bcstream->size+1)
     {
         logger(LOGNAME, DEBUG, "increasing bytecode array capacity");
-        int old_capacity = bytecode->capacity;
-        bytecode->capacity = GROW_CAPACITY(old_capacity);
-        bytecode->code = GROW_ARRAY(uint8_t, bytecode->code, old_capacity, bytecode->capacity);
-        bytecode->lines = GROW_ARRAY(int, bytecode->lines, old_capacity, bytecode->capacity);
+        int old_capacity = bcstream->capacity;
+        bcstream->capacity = GROW_CAPACITY(old_capacity);
+        bcstream->code = GROW_ARRAY(uint8_t, bcstream->code, old_capacity, bcstream->capacity);
+        bcstream->lines = GROW_ARRAY(int, bcstream->lines, old_capacity, bcstream->capacity);
     }
 
-    bytecode->code[bytecode->size]  = byte;
-    bytecode->lines[bytecode->size] = line;
-    bytecode->size++;
+    bcstream->code[bcstream->size]  = byte;
+    bcstream->lines[bcstream->size] = line;
+    bcstream->size++;
         
 }
 
-int add_constant(Bytecode* bytecode, Value value)
+int add_constant(BCStream* bcstream, Value value)
 {
     logger(LOGNAME, INFO, "adding to bytecode stream the constant: %lf", value);
-    write_valuearray(&bytecode->constants, value);
-    return bytecode->constants.size - 1;
+    write_valuearray(&bcstream->constants, value);
+    return bcstream->constants.size - 1;
 }
 
-void free_bytecode(Bytecode* bytecode)
+void free_bcstream(BCStream* bcstream)
 {
     logger(LOGNAME, INFO, "freeing bytecode stream");
-    FREE_ARRAY(uint8_t, bytecode->code, bytecode->capacity);
-    FREE_ARRAY(int, bytecode->lines, bytecode->capacity);
-    free_valuearray(&bytecode->constants);
+    FREE_ARRAY(uint8_t, bcstream->code, bcstream->capacity);
+    FREE_ARRAY(int, bcstream->lines, bcstream->capacity);
+    free_valuearray(&bcstream->constants);
     // leave the bytecode in a well-defined state
-    init_bytecode(bytecode);
+    init_bcstream(bcstream);
 }

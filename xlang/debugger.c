@@ -12,46 +12,46 @@ static int simple_instruction(const char* name, int offset)
     return offset+1;
 }
 
-static int constant_instruction(const char* name, Bytecode* bytecode, int offset)
+static int constant_instruction(const char* name, BCStream* bcstream, int offset)
 {
     logger(LOGNAME, DEBUG, "got instruction: %s", name);
-    uint8_t constant = bytecode->code[offset+1];
+    uint8_t constant = bcstream->code[offset+1];
     logger(LOGNAME, DEBUG, "constant: %4d", constant);
-    print_value(bytecode->constants.values[constant]);
+    print_value(bcstream->constants.values[constant]);
     printf("'\n");
     // note that OP_CONSTANT is two bytes, one 
     // for opcode and the other for operand
     return offset + 2;
 }
 
-void disassemble_bytecode(Bytecode* bytecode, const char* name)
+void disassemble_bcstream(BCStream* bcstream, const char* name)
 {
     logger(LOGNAME, DEBUG, "disassembling bytecode stream: %s", name);
     int offset = 0;
-    while (offset < bytecode->size)
+    while (offset < bcstream->size)
     {
-        offset = disassemble_instruction(bytecode, offset);
+        offset = disassemble_instruction(bcstream, offset);
     }
 }
 
-int disassemble_instruction(Bytecode* bytecode, int offset)
+int disassemble_instruction(BCStream* bcstream, int offset)
 {
     logger(LOGNAME, DEBUG, "disassembling instruction at offset: %04d", offset);
     
-    if ((offset > 0) && (bytecode->lines[offset] == bytecode->lines[offset-1]))
+    if ((offset > 0) && (bcstream->lines[offset] == bcstream->lines[offset-1]))
     {
        printf("    | "); 
     }
     else
     {
-        printf("%4d", bytecode->lines[offset]);
+        printf("%4d", bcstream->lines[offset]);
     }
 
-    uint8_t instruction = bytecode->code[offset];
+    uint8_t instruction = bcstream->code[offset];
     switch (instruction)
     {
         case OP_CONSTANT:
-            return constant_instruction("OP_CONSTANT", bytecode, offset);
+            return constant_instruction("OP_CONSTANT", bcstream, offset);
         case OP_RETURN:
             return simple_instruction("OP_RETURN", offset);
         default:

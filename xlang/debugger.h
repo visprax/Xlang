@@ -1,9 +1,9 @@
 #ifndef XLANG_DEBUGGER_H
 #define XLANG_DEBUGGER_H
 
-#include "bytecode.h"
+#include "bcstream.h"
 
-void disassemble_bytecode(Bytecode* bytecode, const char* name);
-int disassemble_instruction(Bytecode* bytecode, int offset);
+void disassemble_bcstream(BCStream* bcstream, const char* name);
+int disassemble_instruction(BCStream* bcstream, int offset);
 
 #endif // XLANG_DEBUGGER_H

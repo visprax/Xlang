@@ -1,22 +1,22 @@
 #include "common.h"
 #include "logger.h"
-#include "bytecode.h"
+#include "bcstream.h"
 #include "debugger.h"
 
 
 int main(int argc, const char* argv[])
 {
-    Bytecode bytecode;
-    init_bytecode(&bytecode);
+    BCStream bcstream;
+    init_bcstream(&bcstream);
     
-    int constant = add_constant(&bytecode, 1.5);
-    write_bytecode(&bytecode, OP_CONSTANT, 100);
-    write_bytecode(&bytecode, constant, 100);
+    int constant = add_constant(&bcstream, 1.5);
+    write_bcstream(&bcstream, OP_CONSTANT, 100);
+    write_bcstream(&bcstream, constant, 100);
 
-    write_bytecode(&bytecode, OP_RETURN, 100);
+    write_bcstream(&bcstream, OP_RETURN, 100);
     
-    disassemble_bytecode(&bytecode, "Test Bytecode");
+    disassemble_bcstream(&bcstream, "Test Bytecode Stream");
 
-    free_bytecode(&bytecode);
+    free_bcstream(&bcstream);
     return 0;
 }
