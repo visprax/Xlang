@@ -1,7 +1,7 @@
 #include "common.h"
-#include "logger.h"
 #include "bcstream.h"
 #include "debugger.h"
+#include "logger.h"
 
 
 int main(int argc, const char* argv[])
