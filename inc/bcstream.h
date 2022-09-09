@@ -4,8 +4,6 @@
 #include "common.h"
 #include "value.h"
 
-// TODO: change Bytecode to BCStream (bytecode stream)
-
 /*
  * A bcstream is a bytecode stream, sequence of instructions, 
  * each instruction consists of one-byte operation code (OpCode), 
