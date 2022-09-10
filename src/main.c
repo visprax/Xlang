@@ -5,7 +5,7 @@
 #include "vm.h"
 
 
-int main(int argc, const char* argv[])
+int main(int argc, const char** argv)
 {
     init_vm();
 
@@ -15,6 +15,7 @@ int main(int argc, const char* argv[])
     int constant = add_constant(&bcstream, 1.5);
     write_bcstream(&bcstream, OP_CONSTANT, 100);
     write_bcstream(&bcstream, constant, 100);
+    write_bcstream(&bcstream, OP_NEGATE, 100);
     write_bcstream(&bcstream, OP_RETURN, 100);
     
     disassemble_bcstream(&bcstream, "Test Bytecode Stream");
