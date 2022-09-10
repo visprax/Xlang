@@ -1,5 +1,5 @@
 add_executable(xlang main.c)
-target_sources(xlang PRIVATE bcstream.c debugger.c memory.c value.c) 
+target_sources(xlang PRIVATE bcstream.c debugger.c memory.c value.c vm.c) 
 target_include_directories(xlang PUBLIC ${PROJECT_SOURCE_DIR}/inc)
 target_include_directories(xlang PUBLIC ${PROJECT_SOURCE_DIR}/lib/inc)
 target_link_libraries(xlang LINK_PUBLIC logger)
