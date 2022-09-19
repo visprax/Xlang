@@ -19,8 +19,8 @@ static int constant_instruction(const char* name, BCStream* bcstream, int offset
     logger(LOGNAME, DEBUG, "constant: %4d", constant);
     print_value(bcstream->constants.values[constant]);
     printf("'\n");
-    // note that OP_CONSTANT is two bytes, one 
-    // for opcode and the other for operand
+    // note that OP_CONSTANT is two bytes, 
+    // one for opcode and the other for operand
     return offset + 2;
 }
 
@@ -38,6 +38,7 @@ int disassemble_instruction(BCStream* bcstream, int offset)
 {
     logger(LOGNAME, DEBUG, "disassembling instruction at offset: %04d", offset);
     
+    // TODO: instead of printf use logger
     if ((offset > 0) && (bcstream->lines[offset] == bcstream->lines[offset-1]))
     {
        printf("    | "); 
@@ -53,17 +54,17 @@ int disassemble_instruction(BCStream* bcstream, int offset)
         case OP_CONSTANT:
             return constant_instruction("OP_CONSTANT", bcstream, offset);
         case OP_ADD:
-            return simple_instruction("OP_ADD", offset);
+            return simple_instruction("OP_ADD",      offset);
         case OP_SUBTRACT:
             return simple_instruction("OP_SUBTRACT", offset);
         case OP_MULTIPLY:
             return simple_instruction("OP_MULTIPLY", offset);
         case OP_DIVIDE:
-            return simple_instruction("OP_DIVIDE", offset);
+            return simple_instruction("OP_DIVIDE",   offset);
         case OP_NEGATE:
-            return simple_instruction("OP_NEGATE", offset);
+            return simple_instruction("OP_NEGATE",   offset);
         case OP_RETURN:
-            return simple_instruction("OP_RETURN", offset);
+            return simple_instruction("OP_RETURN",   offset);
         default:
             logger(LOGNAME, ERROR, "unknown operation code: %d", instruction);
             return offset+1;
