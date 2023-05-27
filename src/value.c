@@ -9,9 +9,9 @@ static char* LOGNAME = "value";
 void init_valuearray(ValueArray* array)
 {
     logger(LOGNAME, INFO, "initializing ValueArray");
-    array->size = 0;
-    array->capacity = 0;
     array->values = NULL;
+    array->capacity = 0;
+    array->size = 0;
 }
 
 void write_valuearray(ValueArray* array, Value value)
@@ -38,6 +38,6 @@ void free_valuearray(ValueArray* array)
 
 void print_value(Value value)
 {
-    // %g is scientific notation specifier
+    // %g is scientific notation formatter
     printf("%g", value);
 }
