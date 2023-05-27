@@ -30,7 +30,7 @@ typedef struct
     uint8_t* code; // an array of bytes, the opcodes
     int capacity;  // the capacity of the array
     int size;      // how much of the array is in use
-    int* lines;
+    int* lines;    // which line in the source code the bytecode instruction compiled from
     ValueArray constants; // constants array associated with each bytecode stream
 } BCStream;
 

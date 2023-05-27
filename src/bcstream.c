@@ -29,6 +29,7 @@ void write_bcstream(BCStream* bcstream, uint8_t byte, int line)
         bcstream->lines = GROW_ARRAY(int, bcstream->lines, old_capacity, bcstream->capacity);
     }
 
+    // the lines array paralles the code array
     bcstream->code[bcstream->size]  = byte;
     bcstream->lines[bcstream->size] = line;
     bcstream->size++;
