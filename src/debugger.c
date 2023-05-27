@@ -17,16 +17,7 @@ void disassemble_bcstream(BCStream* bcstream, const char* name)
 
 int disassemble_instruction(BCStream* bcstream, int offset)
 {
-    logger(LOGNAME, DEBUG, "disassembling instruction at offset: %04d", offset);
-    if ((offset > 0) && (bcstream->lines[offset] == bcstream->lines[offset-1]))
-    {
-       fprintf(stdout, "    | "); 
-    }
-    else
-    {
-        fprintf(stdout, "%4d", bcstream->lines[offset]);
-    }
-
+    logger(LOGNAME, DEBUG, "disassembling instruction at offset: %04d, line: %4d", offset, bcstream->lines[offset]);
     uint8_t instruction = bcstream->code[offset];
     switch (instruction)
     {
@@ -50,6 +41,13 @@ int disassemble_instruction(BCStream* bcstream, int offset)
     }
 }
 
+/*
+ * Each time we add a new opcode, we have to specify what its operands 
+ * look like, its instruction format. e.g. OP_RETURN has no operands, 
+ * where an instruction for "load a local variable" needs an operand to
+ * identify which variable to load. OP_CONSTANT takes a single byte operand 
+ * that specifies which constant to load from the bytecode streams constant array.
+ */
 static int simple_instruction(const char* name, int offset)
 {
     logger(LOGNAME, DEBUG, "got instruction: %s", name);
@@ -59,11 +57,9 @@ static int simple_instruction(const char* name, int offset)
 static int constant_instruction(const char* name, BCStream* bcstream, int offset)
 {
     logger(LOGNAME, DEBUG, "got instruction: %s", name);
-    uint8_t constant = bcstream->code[offset+1];
-    logger(LOGNAME, DEBUG, "constant: %4d", constant);
-    print_value(bcstream->constants.values[constant]);
+    uint8_t constant = bcstream->code[offset+1]; // constant index from the subsequent byte
+    logger(LOGNAME, DEBUG, "constant index: %4d", constant);
+    print_value(bcstream->constants.values[constant]); // constants are known at compile-time, so we print the actual value
     printf("'\n");
-    // note that OP_CONSTANT is two bytes, 
-    // one for opcode and the other for operand
-    return offset + 2;
+    return offset + 2; // OP_CONSTANT is two bytes, opcode and the operand
 }
