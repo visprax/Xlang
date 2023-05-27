@@ -10,9 +10,9 @@ static char* LOGNAME = "bcstream";
 void init_bcstream(BCStream* bcstream)
 {
     logger(LOGNAME, INFO, "intializing bytecode stream");
-    bcstream->size = 0;
-    bcstream->capacity = 0;
     bcstream->code = NULL;
+    bcstream->capacity = 0;
+    bcstream->size = 0;
     bcstream->lines = NULL;
     init_valuearray(&bcstream->constants);
 }
@@ -32,14 +32,6 @@ void write_bcstream(BCStream* bcstream, uint8_t byte, int line)
     bcstream->code[bcstream->size]  = byte;
     bcstream->lines[bcstream->size] = line;
     bcstream->size++;
-        
-}
-
-int add_constant(BCStream* bcstream, Value value)
-{
-    logger(LOGNAME, INFO, "adding to bytecode stream the constant: %lf", value);
-    write_valuearray(&bcstream->constants, value);
-    return bcstream->constants.size - 1;
 }
 
 void free_bcstream(BCStream* bcstream)
@@ -50,4 +42,11 @@ void free_bcstream(BCStream* bcstream)
     free_valuearray(&bcstream->constants);
     // leave the bytecode in a well-defined state
     init_bcstream(bcstream);
+}
+
+int add_constant(BCStream* bcstream, Value value)
+{
+    logger(LOGNAME, INFO, "adding to bytecode stream the constant: %lf", value);
+    write_valuearray(&bcstream->constants, value);
+    return bcstream->constants.size - 1;
 }
