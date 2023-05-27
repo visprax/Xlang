@@ -40,13 +40,12 @@ void free_bcstream(BCStream* bcstream)
     FREE_ARRAY(uint8_t, bcstream->code, bcstream->capacity);
     FREE_ARRAY(int, bcstream->lines, bcstream->capacity);
     free_valuearray(&bcstream->constants);
-    // leave the bytecode in a well-defined state
-    init_bcstream(bcstream);
+    init_bcstream(bcstream); // leave the bytecode in a well-defined state
 }
 
 int add_constant(BCStream* bcstream, Value value)
 {
     logger(LOGNAME, INFO, "adding to bytecode stream the constant: %lf", value);
     write_valuearray(&bcstream->constants, value);
-    return bcstream->constants.size - 1;
+    return bcstream->constants.size - 1; // return the index where the constant is located
 }

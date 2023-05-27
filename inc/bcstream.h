@@ -9,7 +9,6 @@
  * and each instruction consists of one-byte operation code (OpCode), 
  * followed by zero or more operands.
  */
-
 typedef enum
 {
     OP_CONSTANT,
@@ -32,7 +31,7 @@ typedef struct
     int capacity;  // the capacity of the array
     int size;      // how much of the array is in use
     int* lines;
-    ValueArray constants;
+    ValueArray constants; // constants array associated with each bytecode stream
 } BCStream;
 
 void init_bcstream(BCStream* bcstream);
