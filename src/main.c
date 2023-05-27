@@ -15,11 +15,15 @@ int main(int argc, const char** argv)
     BCStream bcstream;
     init_bcstream(&bcstream);
     
-    int constant = add_constant(&bcstream, 1.4);
-    write_bcstream(&bcstream, OP_CONSTANT, 100);
+    // here we add a constant to the bytecode stream constant pool,
+    // this returns the index of the constant in the array, then we
+    // write the constant instruction starting with its opcode,
+    // after that we write the one-byte constant index operand.
+    int constant = add_constant(&bcstream, 1.0);
+    write_bcstream(&bcstream, OP_CONSTANT, 100); // the line numbers are arbitrary
     write_bcstream(&bcstream, constant, 100);
         
-    constant = add_constant(&bcstream, 1.6);
+    constant = add_constant(&bcstream, 1.5);
     write_bcstream(&bcstream, OP_CONSTANT, 100);
     write_bcstream(&bcstream, constant, 100);
 
@@ -39,7 +43,7 @@ int main(int argc, const char** argv)
     interpret(&bcstream);
 
     free_vm();
-
     free_bcstream(&bcstream);
+
     return 0;
 }
