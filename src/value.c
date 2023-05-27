@@ -31,7 +31,7 @@ void write_valuearray(ValueArray* array, Value value)
 
 void free_valuearray(ValueArray* array)
 {
-    logger(LOGNAME, INFO, "freeing ValueArray");
+    logger(LOGNAME, INFO, "freeing Value array");
     FREE_ARRAY(Value, array->values, array->capacity);
     init_valuearray(array);
 }
