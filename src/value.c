@@ -39,5 +39,5 @@ void free_valuearray(ValueArray* array)
 void print_value(Value value)
 {
     // %g is scientific notation formatter
-    printf("%g", value);
+    fprintf(stdout, "value: %g", value);
 }
