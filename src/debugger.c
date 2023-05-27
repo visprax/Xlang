@@ -6,29 +6,10 @@
 
 static char* LOGNAME = "debugger";
 
-static int simple_instruction(const char* name, int offset)
-{
-    logger(LOGNAME, DEBUG, "got instruction: %s", name);
-    return offset+1;
-}
-
-static int constant_instruction(const char* name, BCStream* bcstream, int offset)
-{
-    logger(LOGNAME, DEBUG, "got instruction: %s", name);
-    uint8_t constant = bcstream->code[offset+1];
-    logger(LOGNAME, DEBUG, "constant: %4d", constant);
-    print_value(bcstream->constants.values[constant]);
-    printf("'\n");
-    // note that OP_CONSTANT is two bytes, 
-    // one for opcode and the other for operand
-    return offset + 2;
-}
-
 void disassemble_bcstream(BCStream* bcstream, const char* name)
 {
     logger(LOGNAME, DEBUG, "disassembling bytecode stream: %s", name);
-    int offset = 0;
-    while (offset < bcstream->size)
+    for(int offset = 0; offset < bcstream->size;)
     {
         offset = disassemble_instruction(bcstream, offset);
     }
@@ -37,15 +18,13 @@ void disassemble_bcstream(BCStream* bcstream, const char* name)
 int disassemble_instruction(BCStream* bcstream, int offset)
 {
     logger(LOGNAME, DEBUG, "disassembling instruction at offset: %04d", offset);
-    
-    // TODO: instead of printf use logger
     if ((offset > 0) && (bcstream->lines[offset] == bcstream->lines[offset-1]))
     {
-       printf("    | "); 
+       fprintf(stdout, "    | "); 
     }
     else
     {
-        printf("%4d", bcstream->lines[offset]);
+        fprintf(stdout, "%4d", bcstream->lines[offset]);
     }
 
     uint8_t instruction = bcstream->code[offset];
@@ -71,3 +50,20 @@ int disassemble_instruction(BCStream* bcstream, int offset)
     }
 }
 
+static int simple_instruction(const char* name, int offset)
+{
+    logger(LOGNAME, DEBUG, "got instruction: %s", name);
+    return offset+1;
+}
+
+static int constant_instruction(const char* name, BCStream* bcstream, int offset)
+{
+    logger(LOGNAME, DEBUG, "got instruction: %s", name);
+    uint8_t constant = bcstream->code[offset+1];
+    logger(LOGNAME, DEBUG, "constant: %4d", constant);
+    print_value(bcstream->constants.values[constant]);
+    printf("'\n");
+    // note that OP_CONSTANT is two bytes, 
+    // one for opcode and the other for operand
+    return offset + 2;
+}
