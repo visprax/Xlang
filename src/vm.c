@@ -7,7 +7,6 @@
 
 static char* LOGNAME = "vm";
 
-// TODO: make this a pointer that gets passed into functions
 VM vm;
 
 static void reset_stack()
@@ -30,7 +29,6 @@ Value pop()
 void init_vm()
 {
     logger(LOGNAME, DEBUG, "initializing virtual machine");
-
     reset_stack();
 }
 
@@ -43,6 +41,8 @@ static InterpretResult run()
 {
 // read instruction pointer first, then advance it by one
 #define READ_BYTE() (*vm.ip++)
+// read the next byte in the bytecode, which in the case of a constant opcode 
+// is the index where the constant is in the constant table 
 #define READ_CONSTANT() (vm.bcstream->constants.values[READ_BYTE()])
 #define BINARY_OP(op) \
     do \
@@ -53,26 +53,28 @@ static InterpretResult run()
     } while (false);
 
 
+    // each loop step reads and executes single bytecode instruction
     for(;;)
     {
 #ifdef DEBUG_TRACE_EXECUTION
-        printf("          ");
+        fprintf(stdout, "          ");
         for (Value* slot = vm.stack; slot < vm.stack_top; slot++)
         {
-            printf("[ ");
+            fprintf(stdout, "[ ");
             print_value(*slot);
-            printf(" ]");
+            fprintf(stdout, " ]");
         }
-        printf("\n");
-/*
- * if enabled, vm disassembles and prints each instruction before execution.
- * disassemble_instruction takes two arguments, the bytecode stream itself
- * and a relative offset from the beginning of the bytecode stream.
- */
+        fprintf(stdout, "\n");
+        /*
+         * If debug is enabled, vm disassembles and prints each instruction before execution.
+         * disassemble_instruction takes two arguments, the bytecode stream itself and 
+         * a relative offset from the beginning of the bytecode stream.
+         */
         disassemble_instruction(vm.bcstream, (int)(vm.ip - vm.bcstream->code));
 #endif
 
         uint8_t instruction;
+        // decoding or instruction dispatching
         switch (instruction = READ_BYTE())
         {
             case OP_CONSTANT:
@@ -80,16 +82,31 @@ static InterpretResult run()
                     Value constant READ_CONSTANT(); 
                     push(constant); 
                     break;
-                } 
-            case OP_ADD:      BINARY_OP(+); break;
-            case OP_SUBTRACT: BINARY_OP(-); break;
-            case OP_MULTIPLY: BINARY_OP(*); break;
-            case OP_DIVIDE:   BINARY_OP(/); break;
-            case OP_NEGATE:   push(-pop()); break;
+                }
+            case OP_ADD:
+                {
+                    BINARY_OP(+);
+                    break;
+                }
+            case OP_SUBTRACT:
+                {
+                    BINARY_OP(-);
+                    break;
+                }
+            case OP_MULTIPLY:
+                {
+                    BINARY_OP(*);
+                    break;
+                }
+            case OP_NEGATE:
+                {
+                    BINARY_OP(-);
+                    break;
+                }
             case OP_RETURN:
                 {
                     print_value(pop());
-                    printf("\n");
+                    fprintf(stdout, "\n");
                     return INTERPRET_OK;
                 }
         }

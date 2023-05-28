@@ -10,12 +10,18 @@
 typedef struct
 {
     BCStream* bcstream;
-    // the instruction pointer that points to the next instruction
-    uint8_t* ip;
+    /*
+     * The instruction pointer that points to the next instruction about to be executed,
+     * we use an actual real C pointer right into the middle of the bytecode array 
+     * instead of an integer index, because it's faster to dereference a pointer 
+     * than look up an element in an array by index.
+     */
+    uint8_t* ip; 
     Value stack[STACK_MAX];
     Value* stack_top;
 } VM;
 
+// after running the bytecodes the vm responds with one of these results
 typedef enum
 {
     INTERPRET_OK,
@@ -27,6 +33,7 @@ void init_vm();
 void free_vm();
 
 InterpretResult interpret(BCStream* bcstream);
+
 void push(Value value);
 Value pop();
 
