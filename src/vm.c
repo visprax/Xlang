@@ -45,6 +45,10 @@ static InterpretResult run()
 // read the next byte in the bytecode, which in the case of a constant opcode 
 // is the index where the constant is in the constant table 
 #define READ_CONSTANT() (vm.bcstream->constants.values[READ_BYTE()])
+// note that this do while(false) trick is necessary to make sure that 
+// all this falls in the same scope, e.g. imgagine a case like:
+// if (condition) BINARY_OP(op); else ..., without this trick 
+// this will get messy!
 #define BINARY_OP(op) \
     do \
     { \
@@ -52,7 +56,6 @@ static InterpretResult run()
         double a = pop(); \
         push(a op b); \
     } while (false);
-
 
     // each loop step reads and executes single bytecode instruction
     for(;;)
@@ -80,7 +83,7 @@ static InterpretResult run()
         switch (instruction = READ_BYTE())
         {
             case OP_CONSTANT:
-                Value constant READ_CONSTANT(); 
+                Value constant = READ_CONSTANT(); 
                 push(constant); 
                 break;
             case OP_ADD:
@@ -92,8 +95,10 @@ static InterpretResult run()
             case OP_MULTIPLY:
                 BINARY_OP(*);
                 break;
+            case OP_DIVIDE:
+                BINARY_OP(/)
             case OP_NEGATE:
-                BINARY_OP(-);
+                push(-pop());
                 break;
             case OP_RETURN:
                 print_value(pop());
