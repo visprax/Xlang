@@ -11,7 +11,14 @@ VM vm;
 
 static void reset_stack()
 {
-    vm.stack_top = vm.stack;
+    // for resetting we just set the stack top to the beginning of the stack array
+    vm.stack_top = vm.stack; 
+}
+
+void init_vm()
+{
+    logger(LOGNAME, DEBUG, "initializing virtual machine");
+    reset_stack();
 }
 
 void push(Value value)
@@ -24,12 +31,6 @@ Value pop()
 {
     vm.stack_top--;
     return *vm.stack_top;
-}
-
-void init_vm()
-{
-    logger(LOGNAME, DEBUG, "initializing virtual machine");
-    reset_stack();
 }
 
 void free_vm()
@@ -57,6 +58,7 @@ static InterpretResult run()
     for(;;)
     {
 #ifdef DEBUG_TRACE_EXECUTION
+        // print the current content of the stack
         fprintf(stdout, "          ");
         for (Value* slot = vm.stack; slot < vm.stack_top; slot++)
         {
@@ -73,42 +75,30 @@ static InterpretResult run()
         disassemble_instruction(vm.bcstream, (int)(vm.ip - vm.bcstream->code));
 #endif
 
+        // decoding step or instruction dispatching
         uint8_t instruction;
-        // decoding or instruction dispatching
         switch (instruction = READ_BYTE())
         {
             case OP_CONSTANT:
-                {
-                    Value constant READ_CONSTANT(); 
-                    push(constant); 
-                    break;
-                }
+                Value constant READ_CONSTANT(); 
+                push(constant); 
+                break;
             case OP_ADD:
-                {
-                    BINARY_OP(+);
-                    break;
-                }
+                BINARY_OP(+);
+                break;
             case OP_SUBTRACT:
-                {
-                    BINARY_OP(-);
-                    break;
-                }
+                BINARY_OP(-);
+                break;
             case OP_MULTIPLY:
-                {
-                    BINARY_OP(*);
-                    break;
-                }
+                BINARY_OP(*);
+                break;
             case OP_NEGATE:
-                {
-                    BINARY_OP(-);
-                    break;
-                }
+                BINARY_OP(-);
+                break;
             case OP_RETURN:
-                {
-                    print_value(pop());
-                    fprintf(stdout, "\n");
-                    return INTERPRET_OK;
-                }
+                print_value(pop());
+                fprintf(stdout, "\n");
+                return INTERPRET_OK;
         }
     }
 #undef READ_BYTE
@@ -120,6 +110,5 @@ InterpretResult interpret(BCStream* bcstream)
 {
     vm.bcstream = bcstream;
     vm.ip = vm.bcstream->code;
-
     return run();
 }
