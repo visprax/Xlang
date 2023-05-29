@@ -23,15 +23,20 @@ int main(int argc, const char** argv)
     int constant = add_constant(&bcstream, 1.0);
     write_bcstream(&bcstream, OP_CONSTANT, 100); // the line numbers are arbitrary
     write_bcstream(&bcstream, constant, 100);
+
     constant = add_constant(&bcstream, 1.5);
     write_bcstream(&bcstream, OP_CONSTANT, 100);
     write_bcstream(&bcstream, constant, 100);
+
     write_bcstream(&bcstream, OP_ADD, 100);
+
     constant = add_constant(&bcstream, 2.0);
     write_bcstream(&bcstream, OP_CONSTANT, 100);
     write_bcstream(&bcstream, constant, 100);
+
     write_bcstream(&bcstream, OP_DIVIDE, 100);
     write_bcstream(&bcstream, OP_NEGATE, 100);
+
     write_bcstream(&bcstream, OP_RETURN, 100);
     
     disassemble_bcstream(&bcstream, "Test Bytecode Stream");
