@@ -14,6 +14,12 @@ static char peek()
     return *scanner.current;
 }
 
+static char peek_next()
+{
+    if(is_at_end()) return "\0";
+    return scanner.current[1];
+}
+
 static bool is_at_end()
 {
     return *scanner.current == "\0";
@@ -58,6 +64,7 @@ static void skip_whitespace()
                 {
                     return
                 }
+                break;
             default:
                 return;
         }
