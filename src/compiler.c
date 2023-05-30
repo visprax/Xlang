@@ -5,6 +5,8 @@
 #include "compiler.h"
 #include "scanner.h"
 
+static char* LOGNAME = "compiler";
+
 void compile(const char* source)
 {
     init_scanner(source);
