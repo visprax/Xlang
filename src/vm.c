@@ -3,6 +3,7 @@
 #include "common.h"
 #include "logger.h"
 #include "debugger.h"
+#include "compiler.h"
 #include "vm.h"
 
 static char* LOGNAME = "vm";
@@ -111,9 +112,8 @@ static InterpretResult run()
 #undef BINARY_OP
 }
 
-InterpretResult interpret(BCStream* bcstream)
+InterpretResult interpret(const char* source)
 {
-    vm.bcstream = bcstream;
-    vm.ip = vm.bcstream->code;
-    return run();
+    compile(source);
+    return INTERPRET_OK;
 }
