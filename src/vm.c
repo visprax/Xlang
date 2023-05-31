@@ -114,6 +114,20 @@ static InterpretResult run()
 
 InterpretResult interpret(const char* source)
 {
-    compile(source);
-    return INTERPRET_OK;
+    BCStream bcstream;
+    init_bcstream(&bcstream);
+
+    if(!compile(source, &bcstream))
+    {
+        free_bcstream(&bcstream);
+        return INTERPRET_COMPILE_ERROR;
+    }
+
+    vm.bcstream = &bcstream;
+    vm.ip = vm.bcstream->code;
+
+    InterpretResult result = run();
+
+    free_bcstream(&bcstream);
+    return result;
 }
